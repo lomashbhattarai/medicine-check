@@ -34,7 +34,8 @@ export default {
       checks:[false,false,false,false,false,false,false],
       today: new Date(),
       writeSuccessful: false,
-      entries:[]
+      entries:[],
+      user:''
     }
   },
   computed:{
@@ -50,6 +51,7 @@ export default {
   },
   methods: {
     async writeToFirestore(day,bool){
+      if(this.user != 'shyam') return;
       let xDate = this.getweekDate(day)
       let docId = xDate.getFullYear() + '-' + xDate.getMonth() + '-'  + xDate.getDay()
       const ref = fireDb.collection("entries").doc(docId)
@@ -58,7 +60,7 @@ export default {
           medicineTakenOn: xDate,
           tookMedicine: bool,
           userId: "1",
-          userName: "Shyam",
+          userName: this.user,
           createdAt: this.today
       }
       try {
@@ -149,7 +151,7 @@ export default {
     margin-top:40px;
   }
   .tick {
-    height: 200px;
+    height: 10%;
   }
 
 
