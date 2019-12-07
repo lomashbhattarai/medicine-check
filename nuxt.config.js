@@ -10,6 +10,7 @@ export default {
     devtools: true
   }
 },
+
   head: {
     title: process.env.npm_package_name || '',
     meta: [
