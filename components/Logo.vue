@@ -1,13 +1,12 @@
 <template>
 <div class ="row wrapper">
-  <div class ="col-md-6">
-    <h3 class="text-success" v-if="checks[day-1]">You have already taken your medicine today</h3>
-    <h3 class="text-danger" v-else>Did you take your medicine?</h3>
+  <div class ="col-xs-12 col-sm-12 col-md-6">
+    <h5 class="text-success" v-if="checks[day-1]">You have already taken your medicine today</h5>
+    <h5 class="text-danger" v-else>Did you take your medicine?</h5>
     <img v-if="checks[day-1]" class="tick" src="../assets/tick2.jpg" />
     <h5><strong>Date: </strong>  {{ date.toString().slice(0,15) }}</h5>
-
   </div>
-  <div class="col-md-6">
+  <div class="col-xs-12 col-sm-12 col-md-6">
     <form action="" method="get">
         <div v-for="(dayName,index) in weekDays"
           class="checklist"
@@ -151,7 +150,11 @@ export default {
     margin-top:40px;
   }
   .tick {
-    height: 10%;
+    height: 100px;
+  }
+
+  .col-xs-12 .col-sm-12 .col-md-6{
+    height: 40%;
   }
 
 
