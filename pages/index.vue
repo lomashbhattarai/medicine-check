@@ -1,5 +1,5 @@
 <template>
-  <div class="container background-image" >
+  <div class="background-image" >
     <div>
       <logo />
       <div class="links">
@@ -10,11 +10,11 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
-
 export default {
   components: {
     Logo
-  }
+  },
+
 }
 </script>
 

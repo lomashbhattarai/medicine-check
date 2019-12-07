@@ -1,7 +1,10 @@
 <template>
-<div class ="row wrapper">
+<div class ="row">
   <div class ="col-xs-12 col-sm-12 col-md-6">
-    <h5 class="text-success" v-if="checks[day-1]">You have already taken your medicine today</h5>
+    <h5 class="text-success" v-if="checks[day-1]">
+      <strong>{{ currentUser.email.split('@')[0] }} </strong>,
+      You have already taken your medicine today
+    </h5>
     <h5 class="text-danger" v-else>Did you take your medicine?</h5>
     <img v-if="checks[day-1]" class="tick" src="../assets/tick2.jpg" />
     <h5><strong>Date: </strong>  {{ date.toString().slice(0,15) }}</h5>
@@ -26,6 +29,7 @@
 
 <script>
 import { fireDb } from '~/plugins/firebase.js'
+import firebase from 'firebase'
 export default {
   data(){
     return {
@@ -34,7 +38,7 @@ export default {
       today: new Date(),
       writeSuccessful: false,
       entries:[],
-      user:''
+      currentUser:''
     }
   },
   computed:{
@@ -46,11 +50,15 @@ export default {
     }
   },
   created(){
-    this.getEntries()
+    firebase.auth().onAuthStateChanged(user => {
+      this.currentUser = user
+      if(user){
+        this.getEntries()
+      }
+    })
   },
   methods: {
     async writeToFirestore(day,bool){
-      if(this.user != 'shyam') return;
       let xDate = this.getweekDate(day)
       let docId = xDate.getFullYear() + '-' + xDate.getMonth() + '-'  + xDate.getDay()
       const ref = fireDb.collection("entries").doc(docId)
@@ -58,8 +66,8 @@ export default {
           day: day,
           medicineTakenOn: xDate,
           tookMedicine: bool,
-          userId: "1",
-          userName: this.user,
+          userId: this.currentUser.email,
+          userName: this.currentUser.email,
           createdAt: this.today
       }
       try {
@@ -71,7 +79,8 @@ export default {
     },
     async getEntries(){
       let vm = this
-      fireDb.collection('entries').where('userId', '==', '1')
+      console.log(vm.currentUser.email)
+      fireDb.collection('entries').where('userId', '==', vm.currentUser.email)
         .orderBy('createdAt')
         .limit(7)
         .get()
@@ -146,9 +155,7 @@ export default {
    cursor: pointer;
   }
 
-  .wrapper{
-    margin-top:40px;
-  }
+
   .tick {
     height: 100px;
   }
