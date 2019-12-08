@@ -13,8 +13,8 @@ if(!firebase.apps.length){
     measurementId: "G-JWKKWHZLJ2"
   }
   firebase.initializeApp(config)
-  const settings = {timestampsInSnapshots:true}
-  firebase.firestore().settings(settings)
+  //const settings = {timestampsInSnapshots:true}
+  //firebase.firestore().settings(settings)
 }
 
 const fireDb = firebase.firestore()

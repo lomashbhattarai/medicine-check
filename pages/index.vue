@@ -1,9 +1,7 @@
 <template>
-  <div class="background-image" >
+  <div>
     <div>
       <CheckList />
-      <div class="links">
-      </div>
     </div>
   </div>
 </template>
@@ -18,7 +16,7 @@ export default {
   },
   data(){
     return {
-      x:''
+
     }
 
   },
@@ -40,10 +38,3 @@ export default {
 }
 </script>
 
-<style>
-
-
-.background-image {
-    /* background-image: url('../assets/medicine.jpg') */
-  }
-</style>
