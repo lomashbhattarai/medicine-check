@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import firebase from 'firebase'
 export default {
   asyncData(){
@@ -23,7 +24,9 @@ export default {
     }
   },
   created(){
-    firebase.auth().onAuthStateChanged(user => (this.authenticatedUser = user))
+    firebase.auth().onAuthStateChanged(user => {
+      this.currentUser(user)
+      this.authenticatedUser = user})
   },
   watch:{
     authenticatedUser(){
@@ -36,6 +39,7 @@ export default {
     }
   },
   methods:{
+    ...mapMutations['currentUser'],
     register(){
       if(this.password === this.registrationPassword){
         firebase.auth().createUserWithEmailAndPassword(this.email,this.password)
@@ -56,3 +60,4 @@ input {
 
 
 </style>
+(

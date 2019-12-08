@@ -1,7 +1,7 @@
 <template>
   <div class="background-image" >
     <div>
-      <logo />
+      <CheckList />
       <div class="links">
       </div>
     </div>
@@ -9,11 +9,33 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import { mapState } from 'vuex'
+import CheckList from '~/components/CheckList.vue'
 export default {
+  name:'Index',
   components: {
-    Logo
+    CheckList
   },
+  data(){
+    return {
+      x:''
+    }
+
+  },
+  computed:{
+    ...mapState({
+        currentUser:state => state.currentUser
+      })
+  },
+  watch:{
+    currentUser(){
+      if(!this.currentUser){
+        this.$router.push({
+          path:'/login'
+        })
+      }
+    }
+  }
 
 }
 </script>

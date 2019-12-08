@@ -14,22 +14,18 @@ import firebase from 'firebase'
 export default {
   asyncData(){
     return {
-      authenticatedUser:null,
       email:'',
       password:''
     }
   },
   created(){
-    firebase.auth().onAuthStateChanged(user => (this.authenticatedUser = user))
-  },
-  watch:{
-    authenticatedUser(){
-      if(this.authenticatedUser){
+    firebase.auth().onAuthStateChanged(user => {
+      if(user){
         this.$router.push({
           path:'/'
         })
       }
-    }
+    })
   },
   methods:{
     login(){

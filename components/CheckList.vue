@@ -10,7 +10,6 @@
     <h5><strong>Date: </strong>  {{ date.toString().slice(0,15) }}</h5>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-6">
-    <h5>This Week </h5>
     <form action="" method="get">
         <div v-for="(dayName,index) in weekDays"
           class="checklist"
@@ -61,7 +60,7 @@ export default {
   methods: {
     async writeToFirestore(day,bool){
       let xDate = this.getweekDate(day)
-      let docId = xDate.getFullYear() + '-' + xDate.getMonth() + '-'  + xDate.getDay()
+      let docId = this.currentUser.email + ':' + xDate.getFullYear() + '-' + xDate.getMonth() + '-'  + xDate.getDate()
       const ref = fireDb.collection("entries").doc(docId)
       const document = {
           day: day,
@@ -107,9 +106,7 @@ export default {
       let x = false
       let xDate = this.getweekDate(value)
       this.entries.map((entry)=> {
-        console.log(entry.medicineTakenOn.toDate(),xDate)
         if(this.sameDay(entry.medicineTakenOn.toDate(),xDate)){
-          console.log("yes same day")
           x = entry.tookMedicine
           return;
         }
