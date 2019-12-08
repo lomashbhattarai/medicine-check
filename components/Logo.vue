@@ -1,24 +1,25 @@
 <template>
 <div class ="row">
   <div class ="col-xs-12 col-sm-12 col-md-6">
-    <h5 class="text-success" v-if="checks[day-1]">
+    <h5 class="text-success" v-if="checks[day]">
       <strong>{{ currentUser.email.split('@')[0] }} </strong>,
       You have already taken your medicine today
     </h5>
-    <h5 class="text-danger" v-else>Did you take your medicine?</h5>
-    <img v-if="checks[day-1]" class="tick" src="../assets/tick2.jpg" />
+    <h5 class="text-danger" v-else> <strong v-if="currentUser">{{ currentUser.email.split('@')[0] }} </strong>,Did you take your medicine?</h5>
+    <img v-if="checks[day]" class="tick" src="../assets/tick2.jpg" />
     <h5><strong>Date: </strong>  {{ date.toString().slice(0,15) }}</h5>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-6">
+    <h5>This Week </h5>
     <form action="" method="get">
         <div v-for="(dayName,index) in weekDays"
           class="checklist"
           :key="index"
-          :class="{'checklist-today': index+1 == day}">
+          :class="{'checklist-today': index == day}">
           <input type="checkbox" name="vehicle"
-              :disabled="(index+1 != day)"
+              :disabled="(index != day)"
               v-model="checks[index]"
-            @click ="writeToFirestore(index+1,!checks[index])">
+            @click ="writeToFirestore(index,!checks[index])">
           <label class="text-primary" :class="{'text-success': checks[index]}" >{{ dayName }}</label> <br>
         </div>
 
@@ -33,7 +34,7 @@ import firebase from 'firebase'
 export default {
   data(){
     return {
-      weekDays:['Monday','Tudesday','wednusday','Thursday','Friday','Saturday','Sunday'],
+      weekDays:['Sunday','Monday','Tudesday','wednusday','Thursday','Friday','Saturday'],
       checks:[false,false,false,false,false,false,false],
       today: new Date(),
       writeSuccessful: false,
@@ -90,7 +91,7 @@ export default {
             vm.entries.push(doc.data());
           });
           this.checks = this.checks.map((check,index)=>{
-              return this.getValue(index+1)
+              return this.getValue(index)
           })
           console.log(vm.entries)
         })
@@ -106,6 +107,7 @@ export default {
       let x = false
       let xDate = this.getweekDate(value)
       this.entries.map((entry)=> {
+        console.log(entry.medicineTakenOn.toDate(),xDate)
         if(this.sameDay(entry.medicineTakenOn.toDate(),xDate)){
           console.log("yes same day")
           x = entry.tookMedicine
