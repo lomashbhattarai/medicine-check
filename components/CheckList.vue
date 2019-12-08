@@ -1,11 +1,16 @@
 <template>
 <div class ="row">
   <div class ="col-xs-12 col-sm-12 col-md-6">
-    <h5 class="text-success" v-if="checks[day]">
-      <strong>{{ currentUser.email.split('@')[0] }} </strong>,
-      You have already taken your medicine today
-    </h5>
-    <h5 class="text-danger" v-else> <strong v-if="currentUser">{{ currentUser.email.split('@')[0] }} </strong>,Did you take your medicine?</h5>
+    <span v-if="loading">Lodaing..</span>
+    <template v-else>
+      <h5 class="text-success" v-if="checks[day]">
+        <strong>{{ currentUser.email.split('@')[0] }} </strong>,
+        You have already taken your medicine today
+      </h5>
+      <h5 class="text-danger" v-else> <strong v-if="currentUser">
+        {{ currentUser.email.split('@')[0] }} </strong>,Did you take your medicine?
+      </h5>
+    </template>
     <img v-if="checks[day]" class="tick" src="../assets/tick2.jpg" />
     <h5><strong>Date: </strong>  {{ date.toString().slice(0,15) }}</h5>
   </div>
@@ -38,7 +43,8 @@ export default {
       today: new Date(),
       writeSuccessful: false,
       entries:[],
-      currentUser:''
+      currentUser:'',
+      loading:false
     }
   },
   computed:{
@@ -79,7 +85,7 @@ export default {
     },
     async getEntries(){
       let vm = this
-      console.log(vm.currentUser.email)
+      this.loading = true
       fireDb.collection('entries').where('userId', '==', vm.currentUser.email)
         .orderBy('createdAt')
         .limit(7)
@@ -92,7 +98,7 @@ export default {
           this.checks = this.checks.map((check,index)=>{
               return this.getValue(index)
           })
-          console.log(vm.entries)
+          this.loading = false
         })
 
     },

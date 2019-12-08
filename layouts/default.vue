@@ -2,8 +2,8 @@
   <div class="container">
     <div>
         <template v-if="!currentUser[0]">
-          <nuxt-link to="/signup"><button class="btn btn-success">SignUp</button></nuxt-link>
-          <nuxt-link to="/login"><button class="btn btn-primary">Login</button></nuxt-link>
+          <!-- <nuxt-link to="/signup"><button class="btn btn-success">SignUp</button></nuxt-link> -->
+          <!-- <nuxt-link to="/login"><button class="btn btn-primary">Login</button></nuxt-link> -->
         </template>
         <button class="btn btn-sm btn-outline-secondary logout"
           v-else
@@ -25,6 +25,7 @@ export default {
     let vm = this
     firebase.auth().onAuthStateChanged(user => {
       if(!user){
+        this.registerCurrentUser(user)
         vm.$router.push({
           path:'/login'
         })

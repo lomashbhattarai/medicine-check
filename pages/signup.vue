@@ -1,10 +1,13 @@
 <template>
   <div class="row">
-    <div class="col-md-6"> Now you or your loved ones will never forget to take your medicine</div>
+    <div class="col-md-6"> Now you or your loved ones will never forget to take your medicine
+      If you already have
+      an account click <nuxt-link to="/login">LogIn</nuxt-link>
+    </div>
     <form class="col-md-6" @submit.prevent="register">
-      <input type="email" v-model="email" placeholder="Your email address" />
-      <input type="password" v-model="password" placeholder="Your password" />
-      <input type="password" v-model="registrationPassword" placeholder="Re-enter password" />
+      <input class="form-control" type="email" v-model="email" placeholder="Your email address" />
+      <input class="form-control" type="password" v-model="password" placeholder="Your password" />
+      <input class="form-control" type="password" v-model="registrationPassword" placeholder="Re-enter password" />
       <button class="btn btn-success">Register</button>
     </form>
   </div>
@@ -56,6 +59,7 @@ export default {
 
 input {
   display: block;
+  margin-bottom: 5px;
 }
 
 
