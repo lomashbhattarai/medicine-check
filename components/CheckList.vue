@@ -3,16 +3,20 @@
   <div class ="col-xs-12 col-sm-12 col-md-6">
     <span v-if="loading">Lodaing..</span>
     <template v-else>
-      <h5 class="text-success" v-if="checks[day]">
+      <h6>
+        <strong>Date: </strong>  {{ date.toString().slice(0,15) }}
+        <img v-if="checks[day]" class="tick" src="../assets/tick2.jpg" />
+      </h6>
+
+      <h6 class="text-success" v-if="checks[day]">
         <strong>{{ currentUser.email.split('@')[0] }} </strong>,
         You have already taken your medicine today
-      </h5>
+      </h6>
       <h5 class="text-danger" v-else> <strong v-if="currentUser">
         {{ currentUser.email.split('@')[0] }} </strong>,Did you take your medicine?
       </h5>
     </template>
-    <img v-if="checks[day]" class="tick" src="../assets/tick2.jpg" />
-    <h5><strong>Date: </strong>  {{ date.toString().slice(0,15) }}</h5>
+
   </div>
   <div class="col-xs-12 col-sm-12 col-md-6">
     <form action="" method="get">
@@ -24,7 +28,7 @@
               :disabled="(index != day)"
               v-model="checks[index]"
             @click ="writeToFirestore(index,!checks[index])">
-          <label class="text-primary" :class="{'text-success': checks[index]}" >{{ dayName }}</label> <br>
+          <label class="text-primary" :class="{'text-success': checks[index],'text-danger': !checks[index] && index==day  }" >{{ dayName }}</label> <br>
         </div>
 
     </form>
@@ -133,16 +137,21 @@ export default {
 <style scoped>
 
   .checklist{
-    font-size: 20px;
-    padding: 5px;
-    margin-bottom: 3px;
+    font-size: 15px;
+    padding: 2px;
+    margin-bottom: 2px;
   }
 
 
-  input[type="checkbox"]{
-    border-radius: 2px;
+  .checklist-today input[type="checkbox"]{
     width: 30px;
     height: 30px;
+  }
+
+  input[type="checkbox"]{
+    border-radius: 2px;
+    width: 20px;
+    height: 20px;
     float:right;
   }
 
@@ -162,7 +171,7 @@ export default {
 
 
   .tick {
-    height: 100px;
+    height: 30px;
   }
 
   .col-xs-12 .col-sm-12 .col-md-6{
